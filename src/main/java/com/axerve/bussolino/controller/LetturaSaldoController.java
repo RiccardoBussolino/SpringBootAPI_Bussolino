@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 @RequestMapping("/api/letturaSaldo")
-public class AccountController {
+public class LetturaSaldoController {
 /*    private final TransactionalRepository repository;
 
     public AccountController(TransactionalRepository repository) {

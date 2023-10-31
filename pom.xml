@@ -54,7 +54,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.axerve.bussolino.controller.AccountController</mainClass>
+					<mainClass>com.axerve.bussolino.controller.LetturaSaldoController</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
