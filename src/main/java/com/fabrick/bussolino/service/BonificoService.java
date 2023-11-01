@@ -1,19 +1,19 @@
 package com.fabrick.bussolino.service;
 
-import com.fabrick.bussolino.request.ExternalBonificoRequest;
+import com.fabrick.bussolino.model.bonifico.AcccountModel;
+import com.fabrick.bussolino.response.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.utility.LoggerUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
-
 import static com.fabrick.bussolino.utility.Utility.preCheckField;
+import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 
 @Service
 public class BonificoService {
@@ -25,21 +25,16 @@ public class BonificoService {
         this.restTemplate = restTemplate;
     }
 
-    private HttpHeaders prepareHttpHeader(String accountId) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        httpHeaders.add("Auth-Schema", "S2S");
-        httpHeaders.add("Api-Key", "FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP");
-        httpHeaders.add("idChiave", "3202");
-        return httpHeaders;
-    }
 
-    public ExternalBonificoRequest moneyTransfer(String accountId) {
+
+    public ExternalBonificoResponse moneyTransfer(Long accountId) {
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", accountId);
-        preCheckField("accountId", accountId, 8);
-        HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader(accountId));
-        LOGGER.info("Avvio dhiamata per recupero saldo, al servizio esterno {} per l'account {}", API_BONIFICO_SERVICE, accountId);
-        return restTemplate.exchange(API_BONIFICO_SERVICE.replace("accountID", accountId), HttpMethod.POST, entity, new ParameterizedTypeReference<ExternalBonificoRequest>() {
-        }).getBody();
+        preCheckField("accountId", accountId.toString(), 8);
+        HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader());
+        LoggerUtility.logChiamataServizioEsterno(API_BONIFICO_SERVICE, accountId.toString());
+        ResponseEntity<ExternalBonificoResponse> response =  restTemplate.exchange(API_BONIFICO_SERVICE.replace("accountID", accountId.toString()), HttpMethod.POST, entity, new ParameterizedTypeReference<ExternalBonificoResponse>() {
+        });
+        //TODO SCOMMENTARE LINEA logResponseCode(response.getStatusCode().toString(), response.getBody().getPayload().toString());
+        return response.getBody();
     }
 }

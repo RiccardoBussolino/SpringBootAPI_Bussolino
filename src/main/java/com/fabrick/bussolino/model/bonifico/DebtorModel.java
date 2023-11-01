@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class LegalPersonBeneficiaryModel {
-    public String fiscalCode;
-    public String legalRepresentativeFiscalCode;
+public class DebtorModel {
+    public String name;
+    public AcccountModel acccount;
 }

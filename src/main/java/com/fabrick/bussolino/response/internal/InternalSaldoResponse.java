@@ -16,18 +16,4 @@ public class InternalSaldoResponse {
     public InternalSaldoResponse(ExternalSaldoResponse externalSaldoResponse) {
         this.saldo = externalSaldoResponse.getPayload().getBalance();
     }
-
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    @Data
-    public static class BonificoRequest {
-       public Long accountId;
-       public String receiverName;
-       public String description;
-       public String currency;
-       public String amount;
-       public String executionDate;
-
-    }
 }

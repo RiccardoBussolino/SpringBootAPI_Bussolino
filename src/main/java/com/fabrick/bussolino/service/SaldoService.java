@@ -5,12 +5,18 @@ import com.fabrick.bussolino.utility.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
+import java.util.Objects;
+
+import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
+import static com.fabrick.bussolino.utility.LoggerUtility.logResponseCode;
+import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 
 @Service
 public class SaldoService {
@@ -22,23 +28,15 @@ public class SaldoService {
         this.restTemplate = restTemplate;
     }
 
-    public ExternalSaldoResponse getSaldo(String accountId) throws RestClientException, IllegalArgumentException {
+    public ExternalSaldoResponse getSaldo(Long accountId) throws RestClientException, IllegalArgumentException {
 
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", accountId);
-        Utility.preCheckField("accountId", accountId, 8);
-        HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader(accountId));
-        LOGGER.info("Avvio dhiamata per recupero saldo, al servizio esterno {} per l'account {}", API_GET_SALDO_SERVICE, accountId);
-        return restTemplate.exchange(API_GET_SALDO_SERVICE.replace("accountID", accountId), HttpMethod.GET, entity, new ParameterizedTypeReference<ExternalSaldoResponse>() {
-        }).getBody();
+        Utility.preCheckField("accountId", String.valueOf(accountId), 8);
+        HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader());
+        logChiamataServizioEsterno(API_GET_SALDO_SERVICE, String.valueOf(accountId));
+        ResponseEntity<ExternalSaldoResponse> response = restTemplate.exchange(API_GET_SALDO_SERVICE.replace("accountID", accountId.toString()), HttpMethod.GET, entity, new ParameterizedTypeReference<ExternalSaldoResponse>() {});
+        logResponseCode(response.getStatusCode().toString(), response.getBody().getPayload().toString());
+        return response.getBody();
     }
 
-
-    private HttpHeaders prepareHttpHeader(String accountId) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        httpHeaders.add("Auth-Schema", "S2S");
-        httpHeaders.add("Api-Key", "FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP");
-        httpHeaders.add("idChiave", "3202");
-        return httpHeaders;
-    }
 }

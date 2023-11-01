@@ -1,12 +1,18 @@
 package com.fabrick.bussolino.utility;
 
-import com.fabrick.bussolino.request.ExternalBonificoRequest;
+
+import com.fabrick.bussolino.model.bonifico.AcccountModel;
+import com.fabrick.bussolino.response.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.response.external.ExternalSaldoResponse;
 import com.fabrick.bussolino.response.internal.InternalBonificoResponse;
 import com.fabrick.bussolino.response.internal.InternalSaldoResponse;
-import com.fabrick.bussolino.response.external.ExternalSaldoResponse;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
+import java.util.Collections;
 
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 
@@ -17,7 +23,7 @@ public class Utility {
         return new InternalSaldoResponse(resp);
     }
 
-    public static InternalBonificoResponse prepareResponse(ExternalBonificoRequest resp) {
+    public static InternalBonificoResponse prepareResponse(ExternalBonificoResponse resp) {
         return new InternalBonificoResponse(resp);
     }
     public static void preCheckField(String fieldName, String fieldValue, int size) {
@@ -26,4 +32,13 @@ public class Utility {
             throw new IllegalArgumentException();
         }
     }
+    public static HttpHeaders prepareHttpHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        httpHeaders.add("Auth-Schema", "S2S");
+        httpHeaders.add("Api-Key", "FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP");
+        httpHeaders.add("idChiave", "3202");
+        return httpHeaders;
+    }
+
 }

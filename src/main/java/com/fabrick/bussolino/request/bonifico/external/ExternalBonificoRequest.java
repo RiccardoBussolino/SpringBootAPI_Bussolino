@@ -1,11 +1,18 @@
-package com.fabrick.bussolino.request;
+package com.fabrick.bussolino.request.bonifico.external;
 
 import com.fabrick.bussolino.model.bonifico.CreditorModel;
 import com.fabrick.bussolino.model.bonifico.LegalPersonBeneficiaryModel;
 import com.fabrick.bussolino.model.bonifico.TaxReliefModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
 public class ExternalBonificoRequest {
     public CreditorModel creditor;
     public Date executionDate;
