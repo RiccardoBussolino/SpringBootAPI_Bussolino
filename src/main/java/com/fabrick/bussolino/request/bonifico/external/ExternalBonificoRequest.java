@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import java.util.Date;
 @Data
 public class ExternalBonificoRequest {
     public CreditorModel creditor;
-    public Date executionDate;
+    public LocalDate executionDate;
     public String uri;
     public String description;
     public Long amount;

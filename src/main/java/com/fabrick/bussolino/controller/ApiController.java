@@ -10,6 +10,7 @@ import com.fabrick.bussolino.response.internal.InternalSaldoResponse;
 import com.fabrick.bussolino.service.BonificoService;
 import com.fabrick.bussolino.service.SaldoService;
 import com.fabrick.bussolino.utility.Utility;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -31,11 +32,11 @@ public class ApiController {
         return Utility.prepareResponse(response);
     }
 
-    @PostMapping(value = "/bonifico")
+    @GetMapping(value = "/bonifico")
     @ResponseStatus(HttpStatus.OK)
-    public InternalBonificoResponse Bonifico(@RequestParam Long accountId, @RequestBody InternalBonificoRequest bonificoRequest) {
+    public InternalBonificoResponse moneyTransfer(InternalBonificoRequest internalBonificoRequest) throws JsonProcessingException {
         BonificoService bonificoService = new BonificoService(new RestTemplate());
-        ExternalBonificoResponse response = bonificoService.moneyTransfer(accountId);
-        return Utility.prepareResponse(response);
+        ExternalBonificoResponse response = bonificoService.moneyTransfer(internalBonificoRequest);
+        return Utility.prepareResponse(response,internalBonificoRequest.getAccountId());
     }
 }

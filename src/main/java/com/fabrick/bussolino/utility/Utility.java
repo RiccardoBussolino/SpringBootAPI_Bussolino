@@ -23,11 +23,11 @@ public class Utility {
         return new InternalSaldoResponse(resp);
     }
 
-    public static InternalBonificoResponse prepareResponse(ExternalBonificoResponse resp) {
-        return new InternalBonificoResponse(resp);
+    public static InternalBonificoResponse prepareResponse(ExternalBonificoResponse resp,Long accountId) {
+        return new InternalBonificoResponse(resp, accountId);
     }
-    public static void preCheckField(String fieldName, String fieldValue, int size) {
-        if(StringUtils.isBlank(fieldValue) || (StringUtils.isNotBlank(fieldValue) && (fieldValue.length()!=size || !isNumeric(fieldValue)))) {
+    public static void preCheckField(String fieldName, String fieldValue, int size,boolean isNumeric) {
+        if(StringUtils.isBlank(fieldValue) || (StringUtils.isNotBlank(fieldValue) && (size!=-1 && fieldValue.length()!=size || (isNumeric && !isNumeric(fieldValue))))) {
             LOGGER.error("Il cammpo {} non risulta formattato nella maniera corretta.",fieldName);
             throw new IllegalArgumentException();
         }
