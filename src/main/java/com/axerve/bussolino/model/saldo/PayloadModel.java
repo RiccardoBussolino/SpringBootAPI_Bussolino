@@ -1,4 +1,4 @@
-package com.axerve.bussolino.model;
+package com.axerve.bussolino.model.saldo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Data
-public class PayloadSaldo {
+public class PayloadModel {
     public Date date;
     public String balance;
     public String availableBalance;

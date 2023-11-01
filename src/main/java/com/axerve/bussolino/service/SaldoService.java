@@ -1,6 +1,5 @@
 package com.axerve.bussolino.service;
 
-import com.axerve.bussolino.ApplicationMain;
 import com.axerve.bussolino.response.external.ExternalSaldoResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,21 +16,21 @@ import static com.axerve.bussolino.utility.Utility.preCheckField;
 @Service
 public class SaldoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaldoService.class);
-    private final String API_ACCOUNT_SERVICE = "https://sandbox.platfr.io//api/gbs/banking/v4.0/accounts/accountID/balance";
+    private final String API_GET_SALDO_SERVICE = "https://sandbox.platfr.io//api/gbs/banking/v4.0/accounts/accountID/balance";
     private final RestTemplate restTemplate;
 
     public SaldoService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public ExternalSaldoResponse getAccount(String accountId) throws RestClientException, IllegalArgumentException {
+    public ExternalSaldoResponse getSaldo(String accountId) throws RestClientException, IllegalArgumentException {
+
+        LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", accountId);
+        preCheckField("accountId", accountId, 8);
         HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader(accountId));
-        LOGGER.info("Avvio Chiamata al servizio esterno {} per l'account {}", API_ACCOUNT_SERVICE, accountId);
-        ResponseEntity<ExternalSaldoResponse> response;
-        preCheckField("accountId",accountId, 8);
-        response = restTemplate.exchange(API_ACCOUNT_SERVICE.replace("accountID", accountId), HttpMethod.GET, entity, new ParameterizedTypeReference<ExternalSaldoResponse>() {
-        });
-        return response.getBody();
+        LOGGER.info("Avvio dhiamata per recupero saldo, al servizio esterno {} per l'account {}", API_GET_SALDO_SERVICE, accountId);
+        return restTemplate.exchange(API_GET_SALDO_SERVICE.replace("accountID", accountId), HttpMethod.GET, entity, new ParameterizedTypeReference<ExternalSaldoResponse>() {
+        }).getBody();
     }
 
 

@@ -1,6 +1,6 @@
 package com.axerve.bussolino;
 
-import com.axerve.bussolino.controller.LetturaSaldoController;
+import com.axerve.bussolino.controller.ApiController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@ComponentScan(basePackageClasses = LetturaSaldoController.class)
+@ComponentScan(basePackageClasses = ApiController.class)
 public class ApplicationMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationMain.class);
 

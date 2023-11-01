@@ -1,6 +1,6 @@
 package com.axerve.bussolino.response.external;
 
-import com.axerve.bussolino.model.PayloadSaldo;
+import com.axerve.bussolino.model.saldo.PayloadModel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,5 +16,5 @@ import java.util.List;
 public class ExternalSaldoResponse {
     private HttpStatus status;
     private List<String> error;
-    private PayloadSaldo payload;
+    private PayloadModel payload;
 }

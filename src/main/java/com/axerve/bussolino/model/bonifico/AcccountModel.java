@@ -1,14 +1,15 @@
-package com.axerve.bussolino.request;
+package com.axerve.bussolino.model.bonifico;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountIdRequest {
-    public Long accountId;
+@Builder
+@Data
+public class AcccountModel {
+    public String accountCode;
+    public String bicCode;
 }
