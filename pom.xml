@@ -59,7 +59,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>com.axerve.bussolino.controller.ApiController</mainClass>
+					<mainClass>com.fabrick.bussolino.controller.ApiController</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
