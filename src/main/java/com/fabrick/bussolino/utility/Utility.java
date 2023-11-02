@@ -38,6 +38,8 @@ public class Utility {
         httpHeaders.add("Auth-Schema", "S2S");
         httpHeaders.add("Api-Key", "FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP");
         httpHeaders.add("idChiave", "3202");
+        httpHeaders.add("X-Time-Zone","");
+
         return httpHeaders;
     }
 

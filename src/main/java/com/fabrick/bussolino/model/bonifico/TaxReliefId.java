@@ -9,10 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class TaxReliefModel {
-   public String taxDeliefId;
+public class TaxReliefId {
+   public String taxReliefId;
    public Boolean isCondoUpgrade;
    public String creditorFiscalCode;
    public String beneficiaryType;
    public NaturalPersonBeneficiaryModel naturalPersonBeneficiary;
+   public LegalPersonBeneficiaryModel legalPersonBeneficiary;
 }

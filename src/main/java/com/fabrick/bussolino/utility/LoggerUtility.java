@@ -15,7 +15,10 @@ public class LoggerUtility {
         }
         LOGGER.info("Response payloads: {}",payloads);
     }
-    public static void logChiamataServizioEsterno(String service,String accountId) {
+    public static void logChiamataServizioEsterno(String service,String accountId, String header, String body) {
         LOGGER.info("Avvio chiamata per recupero saldo, al servizio esterno {} per l'account {}", service, accountId);
+        LOGGER.info ("HEADER:{}",header);
+        LOGGER.info("BODY: {}",body);
+
     }
 }

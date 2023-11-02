@@ -1,15 +1,14 @@
 package com.fabrick.bussolino.request.bonifico.external;
 
 import com.fabrick.bussolino.model.bonifico.CreditorModel;
-import com.fabrick.bussolino.model.bonifico.LegalPersonBeneficiaryModel;
-import com.fabrick.bussolino.model.bonifico.TaxReliefModel;
+import com.fabrick.bussolino.model.bonifico.TaxReliefId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -25,6 +24,6 @@ public class ExternalBonificoRequest {
     public Boolean isInstant;
     public String feeType;
     public String feeAccountId;
-    public TaxReliefModel taxRelief;
-    public LegalPersonBeneficiaryModel legalPersonBeneficiary;
+    public TaxReliefId taxRelief;
+
 }

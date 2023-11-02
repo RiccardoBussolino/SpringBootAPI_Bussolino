@@ -1,17 +1,15 @@
 package com.fabrick.bussolino.model.bonifico;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
+@Getter
+@Setter
 public class PayloadModel {
 
     public String moneyTransferId;
@@ -32,6 +30,6 @@ public class PayloadModel {
     public Boolean isInstant;
     public String feeType;
     public String feeAccountId;
-    public FeesModel[] fees;
+    public List<FeesModel> fees;
     public Boolean hasTaxRelief;
 }
