@@ -34,7 +34,7 @@ public class ApiController {
 
     @GetMapping(value = "/bonifico")
     @ResponseStatus(HttpStatus.OK)
-    public InternalBonificoResponse moneyTransfer(InternalBonificoRequest internalBonificoRequest) throws JsonProcessingException {
+    public InternalBonificoResponse moneyTransfer(InternalBonificoRequest internalBonificoRequest) {
         BonificoService bonificoService = new BonificoService(new RestTemplate());
         ExternalBonificoResponse response = bonificoService.moneyTransfer(internalBonificoRequest);
         return Utility.prepareResponse(response,internalBonificoRequest.getAccountId());

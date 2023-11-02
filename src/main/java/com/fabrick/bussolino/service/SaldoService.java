@@ -35,7 +35,7 @@ public class SaldoService {
         HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader());
         logChiamataServizioEsterno(API_GET_SALDO_SERVICE, String.valueOf(accountId),entity.getHeaders().toString(), entity.getBody());
         ResponseEntity<ExternalSaldoResponse> response = restTemplate.exchange(API_GET_SALDO_SERVICE.replace("{accountId}", accountId.toString()), HttpMethod.GET, entity, new ParameterizedTypeReference<ExternalSaldoResponse>() {});
-        logResponseCode(response.getStatusCode().toString(), Objects.requireNonNull(response.getBody()).getPayload().toString());
+        logResponseCode(response.getStatusCode().toString(), Objects.requireNonNull(response.getBody()).getError().toString(),Objects.requireNonNull(response.getBody()).getPayload().toString());
         return response.getBody();
     }
 

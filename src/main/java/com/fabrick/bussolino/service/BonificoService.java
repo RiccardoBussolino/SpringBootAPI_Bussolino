@@ -5,6 +5,8 @@ import com.fabrick.bussolino.request.bonifico.external.ExternalBonificoRequest;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;
 import com.fabrick.bussolino.response.external.ExternalBonificoResponse;
 import com.fabrick.bussolino.utility.LocalDateAdapter;
+import com.fabrick.bussolino.utility.LoggerUtility;
+import com.fabrick.bussolino.utility.Utility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
@@ -12,13 +14,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
@@ -37,7 +43,7 @@ public class BonificoService {
     }
 
 
-    public ExternalBonificoResponse moneyTransfer(InternalBonificoRequest internalBonificoRequest) throws RestClientException, IllegalArgumentException {
+    public ExternalBonificoResponse moneyTransfer(InternalBonificoRequest internalBonificoRequest) throws IllegalArgumentException {
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", internalBonificoRequest.getAccountId());
         preCheckBonifico(internalBonificoRequest);
         Gson gson = new GsonBuilder()
@@ -49,9 +55,19 @@ public class BonificoService {
 
         String url = API_BONIFICO_SERVICE.replace("{accountId}", internalBonificoRequest.getAccountId().toString());
         logChiamataServizioEsterno(url, internalBonificoRequest.getAccountId().toString(),entity.getHeaders().toString(), entity.getBody());
-        ResponseEntity<ExternalBonificoResponse> response = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<ExternalBonificoResponse>() {
-        });
-        logResponseCode(response.getStatusCode().toString(), Objects.requireNonNull(response.getBody()).getPayload().toString());
+        ResponseEntity<ExternalBonificoResponse> response = null;
+        try {
+
+            response = restTemplate.postForEntity(url, entity, ExternalBonificoResponse.class);
+}  catch (HttpStatusCodeException ex) {
+        LOGGER.error("Errore nella chiamata al servizio esterno.");
+        List<String> listEx= new ArrayList<>();
+        listEx.add(ex.getResponseBodyAsString());
+        response= new ResponseEntity<>(new ExternalBonificoResponse(HttpStatus.BAD_REQUEST,listEx,new PayloadModel()),HttpStatus.BAD_REQUEST);
+        }
+        finally {
+            LoggerUtility.logResponseCode(response.getStatusCode().toString(),response.getBody().getError().toString(),response.getBody().getPayload().toString());
+        }
         return response.getBody();
     }
 
