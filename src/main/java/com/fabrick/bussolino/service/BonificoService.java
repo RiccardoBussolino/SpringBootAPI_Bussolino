@@ -16,7 +16,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,11 +30,14 @@ import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEst
 import static com.fabrick.bussolino.utility.Utility.preCheckField;
 import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 
-@Service
 public class BonificoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(BonificoService.class);
     private final String API_BONIFICO_SERVICE = "https://sandbox.platfr.io//api/gbs/banking/v4.0/accounts/{accountId}/payments/money-transfers";
     private final RestTemplate restTemplate;
+
+    public BonificoService() {
+        this.restTemplate = new RestTemplate();
+    }
 
     public BonificoService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -73,6 +75,33 @@ public class BonificoService {
     }
 
     private ExternalBonificoRequest mockingTryCallExtended(InternalBonificoRequest internalBonificoRequest) {
+        /*
+        * Sarebbe possibile richiamare l'API relativa al recupero di tutti gli account e quindi le informazioni, per adesso si procede con un mocking.
+        *API di riferimento "GET CUSTOMER CASH ACCOUNTS": https://sandbox.platfr.ioT/api/gbs/customer/v4.0/myself/accounts
+        * response: {
+    "status": {
+        "code": "OK",
+        "description": "Accounts list retrieved successfully"
+    },
+    "error": {
+        "description": ""
+    },
+    "payload": [
+        {
+            "accountId": "14537780",
+            "iban": "IT40L0326822311052923800661",
+            "account": "1152923800661",
+            "accountMasked": "Not Available",
+            "accountAlias": "Test api",
+            "productName": "Conto Websella",
+            "accountHolderName": "LUCA TERRIBILE",
+            "currency": "Euro"
+        }
+    ]
+}
+        * */
+
+
         ExternalBonificoRequest request = new ExternalBonificoRequest();
         CreditorModel creditorModel = new CreditorModel();
         creditorModel.setName(internalBonificoRequest.getReceiverName());

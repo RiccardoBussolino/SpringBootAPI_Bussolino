@@ -1,7 +1,7 @@
 package com.fabrick.bussolino.service;
 
-import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
 import com.fabrick.bussolino.response.JsonResponse;
+import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
 import com.fabrick.bussolino.utility.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +26,10 @@ public class SaldoService {
     private final String API_GET_SALDO_SERVICE = "https://sandbox.platfr.io//api/gbs/banking/v4.0/accounts/{accountId}/balance";
     private final RestTemplate restTemplate;
 
+    public SaldoService() {
+        this.restTemplate = new RestTemplate();
+    }
+
     public SaldoService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -33,12 +37,12 @@ public class SaldoService {
     public JsonResponse<ExternalSaldoResponse> getSaldo(Long accountId) throws RestClientException, IllegalArgumentException {
 
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", accountId);
-        Utility.preCheckField("accountId", String.valueOf(accountId), 8,true);
+        Utility.preCheckField("accountId", String.valueOf(accountId), 8, true);
         HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader());
-        String url=UriComponentsBuilder.fromHttpUrl(API_GET_SALDO_SERVICE)
+        String url = UriComponentsBuilder.fromHttpUrl(API_GET_SALDO_SERVICE)
                 .buildAndExpand(accountId)
                 .toUriString();
-        logChiamataServizioEsterno(url, String.valueOf(accountId),entity);
+        logChiamataServizioEsterno(url, String.valueOf(accountId), entity);
         ResponseEntity<JsonResponse<ExternalSaldoResponse>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {
         });
         logJsonResponse(Objects.requireNonNull(response.getBody()));

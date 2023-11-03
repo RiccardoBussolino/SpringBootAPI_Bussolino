@@ -30,6 +30,9 @@ public class TransazioneService {
     private final String API_TRANSAZIONI_SERVICE = "https://sandbox.platfr.io/api/gbs/banking/v4.0/accounts/{accountId}/transactions?fromAccountingDate={fromAccountingDate}&toAccountingDate={toAccountingDate}";
     private final RestTemplate restTemplate;
 
+    public TransazioneService() {
+        this.restTemplate = new RestTemplate();
+    }
     public TransazioneService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }

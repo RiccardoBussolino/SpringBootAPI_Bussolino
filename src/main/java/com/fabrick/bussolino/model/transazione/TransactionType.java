@@ -1,9 +1,11 @@
 package com.fabrick.bussolino.model.transazione;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
+@AllArgsConstructor
 @Getter
 public class TransactionType {
     private Enumeration enumeration;

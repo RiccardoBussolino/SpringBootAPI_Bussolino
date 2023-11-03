@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@ComponentScan(basePackageClasses = ApiController.class)
+@ComponentScan("com.fabrick.bussolino")
 public class ApplicationMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationMain.class);
 
