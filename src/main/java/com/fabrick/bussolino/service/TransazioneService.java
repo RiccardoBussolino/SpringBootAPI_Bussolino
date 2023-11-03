@@ -33,6 +33,7 @@ public class TransazioneService {
     public TransazioneService() {
         this.restTemplate = new RestTemplate();
     }
+
     public TransazioneService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -48,7 +49,8 @@ public class TransazioneService {
         logChiamataServizioEsterno(url, internalTransazioneRequest.getAccountId().toString(), entity);
         ResponseEntity<JsonResponse<ExternalTransazioneResponse>> response = null;
         try {
-            response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {});
+            response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {
+            });
         } catch (HttpStatusCodeException ex) {
             LOGGER.error("Errore nella chiamata al servizio esterno.");
             List<String> listEx = new ArrayList<>();
@@ -67,3 +69,4 @@ public class TransazioneService {
         preCheckField("toAccountingDate", internalTransazioneRequest.getToAccountingDate(), -1, false);
     }
 }
+

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Setter
-@AllArgsConstructor
 @Getter
 public class TransactionType {
     private Enumeration enumeration;
