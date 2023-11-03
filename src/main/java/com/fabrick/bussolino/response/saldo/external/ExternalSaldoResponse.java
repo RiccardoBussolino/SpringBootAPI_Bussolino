@@ -1,4 +1,4 @@
-package com.fabrick.bussolino.response.external;
+package com.fabrick.bussolino.response.saldo.external;
 
 import com.fabrick.bussolino.model.saldo.PayloadModel;
 import lombok.*;

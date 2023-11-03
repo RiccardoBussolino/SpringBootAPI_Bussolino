@@ -3,22 +3,18 @@ package com.fabrick.bussolino.service;
 import com.fabrick.bussolino.model.bonifico.*;
 import com.fabrick.bussolino.request.bonifico.external.ExternalBonificoRequest;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;
-import com.fabrick.bussolino.response.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
 import com.fabrick.bussolino.utility.LocalDateAdapter;
 import com.fabrick.bussolino.utility.LoggerUtility;
-import com.fabrick.bussolino.utility.Utility;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -28,7 +24,6 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
-import static com.fabrick.bussolino.utility.LoggerUtility.logResponseCode;
 import static com.fabrick.bussolino.utility.Utility.preCheckField;
 import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 
@@ -66,7 +61,8 @@ public class BonificoService {
         response= new ResponseEntity<>(new ExternalBonificoResponse(HttpStatus.BAD_REQUEST,listEx,new PayloadModel()),HttpStatus.BAD_REQUEST);
         }
         finally {
-            LoggerUtility.logResponseCode(response.getStatusCode().toString(),response.getBody().getError().toString(),response.getBody().getPayload().toString());
+            assert response != null;
+            LoggerUtility.logResponseCode(response.getStatusCode().toString(), Objects.requireNonNull(response.getBody()).getError().toString(),response.getBody().getPayload().toString());
         }
         return response.getBody();
     }

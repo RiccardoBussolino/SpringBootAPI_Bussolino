@@ -1,16 +1,18 @@
 package com.fabrick.bussolino.controller;
 
 
-import com.fabrick.bussolino.model.bonifico.AcccountModel;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;
-import com.fabrick.bussolino.response.external.ExternalBonificoResponse;
-import com.fabrick.bussolino.response.external.ExternalSaldoResponse;
-import com.fabrick.bussolino.response.internal.InternalBonificoResponse;
-import com.fabrick.bussolino.response.internal.InternalSaldoResponse;
+import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
+import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
+import com.fabrick.bussolino.response.bonifico.internal.InternalBonificoResponse;
+import com.fabrick.bussolino.response.saldo.internal.InternalSaldoResponse;
+import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
+import com.fabrick.bussolino.response.transazione.internal.InternalTransazioneResponse;
 import com.fabrick.bussolino.service.BonificoService;
 import com.fabrick.bussolino.service.SaldoService;
+import com.fabrick.bussolino.service.TransazioneService;
 import com.fabrick.bussolino.utility.Utility;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -38,5 +40,12 @@ public class ApiController {
         BonificoService bonificoService = new BonificoService(new RestTemplate());
         ExternalBonificoResponse response = bonificoService.moneyTransfer(internalBonificoRequest);
         return Utility.prepareResponse(response,internalBonificoRequest.getAccountId());
+    }
+    @GetMapping(value = "/letturaTransazioni")
+    @ResponseStatus(HttpStatus.OK)
+    public InternalTransazioneResponse transactionList(InternalTransazioneRequest internalTransazioneRequest) {
+        TransazioneService transazioneService = new TransazioneService(new RestTemplate());
+        ExternalTransazioneResponse response = transazioneService.transactionList(internalTransazioneRequest);
+        return Utility.prepareResponse(response,internalTransazioneRequest.getAccountId());
     }
 }

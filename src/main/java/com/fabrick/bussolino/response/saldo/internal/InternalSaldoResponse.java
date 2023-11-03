@@ -1,6 +1,6 @@
-package com.fabrick.bussolino.response.internal;
+package com.fabrick.bussolino.response.saldo.internal;
 
-import com.fabrick.bussolino.response.external.ExternalSaldoResponse;
+import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

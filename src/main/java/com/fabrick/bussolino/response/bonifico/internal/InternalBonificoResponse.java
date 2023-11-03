@@ -1,7 +1,6 @@
-package com.fabrick.bussolino.response.internal;
+package com.fabrick.bussolino.response.bonifico.internal;
 
-import com.fabrick.bussolino.model.bonifico.AcccountModel;
-import com.fabrick.bussolino.response.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

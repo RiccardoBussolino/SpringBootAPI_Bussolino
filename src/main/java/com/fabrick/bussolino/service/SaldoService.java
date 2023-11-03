@@ -1,6 +1,6 @@
 package com.fabrick.bussolino.service;
 
-import com.fabrick.bussolino.response.external.ExternalSaldoResponse;
+import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
 import com.fabrick.bussolino.utility.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

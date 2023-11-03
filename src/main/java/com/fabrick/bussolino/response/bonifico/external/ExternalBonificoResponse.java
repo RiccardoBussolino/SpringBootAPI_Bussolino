@@ -1,4 +1,4 @@
-package com.fabrick.bussolino.response.external;
+package com.fabrick.bussolino.response.bonifico.external;
 
 import com.fabrick.bussolino.model.bonifico.PayloadModel;
 import lombok.*;

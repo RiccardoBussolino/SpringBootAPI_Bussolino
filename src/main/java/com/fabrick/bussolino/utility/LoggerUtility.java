@@ -8,12 +8,13 @@ public class LoggerUtility {
 
     public static void logResponseCode(String statusCode,String errors, String payloads) {
 
-        if (("200").equalsIgnoreCase(statusCode)) {
+        if (("200 OK").equalsIgnoreCase(statusCode)) {
             LOGGER.info("Il servizio esterno ha risposto correttamente - STATUS: {}", statusCode);
             LOGGER.info("Response payloads: {}",payloads);
         } else {
             LOGGER.error("Il servizio esterno ha segnalto un errore - STATUS: {}", statusCode);
             LOGGER.error("Response error: {}",errors);
+            LOGGER.error("Response payload: {}", payloads);
         }
 
     }
