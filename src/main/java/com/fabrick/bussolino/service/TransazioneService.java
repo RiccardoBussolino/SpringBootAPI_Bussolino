@@ -35,7 +35,7 @@ public class TransazioneService {
     }
 
 
-    public ExternalTransazioneResponse transactionList(InternalTransazioneRequest internalTransazioneRequest) throws IllegalArgumentException {
+    public JsonResponse<ExternalTransazioneResponse> transactionList(InternalTransazioneRequest internalTransazioneRequest) throws IllegalArgumentException {
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", internalTransazioneRequest.getAccountId());
         preCheckTransazione(internalTransazioneRequest);
         HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader());
@@ -55,7 +55,7 @@ public class TransazioneService {
             assert response != null;
             LoggerUtility.logJsonResponse(Objects.requireNonNull(response.getBody()));
         }
-        return response.getBody().getPayload();
+        return response.getBody();
     }
 
     private void preCheckTransazione(InternalTransazioneRequest internalTransazioneRequest) throws IllegalArgumentException {

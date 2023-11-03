@@ -42,7 +42,7 @@ public class BonificoService {
     }
 
 
-    public ExternalBonificoResponse moneyTransfer(InternalBonificoRequest internalBonificoRequest) throws IllegalArgumentException {
+    public JsonResponse<ExternalBonificoResponse> moneyTransfer(InternalBonificoRequest internalBonificoRequest) throws IllegalArgumentException {
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", internalBonificoRequest.getAccountId());
         preCheckBonifico(internalBonificoRequest);
         Gson gson = new GsonBuilder()
@@ -69,7 +69,7 @@ public class BonificoService {
             assert response != null;
             LoggerUtility.logJsonResponse(Objects.requireNonNull(response.getBody()));
         }
-        return response.getBody().getPayload();
+        return response.getBody();
     }
 
     private ExternalBonificoRequest mockingTryCallExtended(InternalBonificoRequest internalBonificoRequest) {

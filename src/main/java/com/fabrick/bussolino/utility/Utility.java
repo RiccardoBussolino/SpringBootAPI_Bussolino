@@ -1,6 +1,7 @@
 package com.fabrick.bussolino.utility;
 
 
+import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
 import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
 import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
@@ -18,17 +19,6 @@ import static org.springframework.http.MediaType.*;
 
 public class Utility {
     private static final Logger LOGGER = LoggerFactory.getLogger(Utility.class);
-
-    public static InternalSaldoResponse prepareResponse(ExternalSaldoResponse resp) {
-        return new InternalSaldoResponse(resp);
-    }
-
-    public static InternalBonificoResponse prepareResponse(ExternalBonificoResponse resp, Long accountId) {
-        return new InternalBonificoResponse(resp, accountId);
-    }
-    public static InternalTransazioneResponse prepareResponse(ExternalTransazioneResponse resp, Long accountId) {
-        return new InternalTransazioneResponse(resp.getList());
-    }
 
     public static void preCheckField(String fieldName, String fieldValue, int size, boolean isNumeric) {
         if (StringUtils.isBlank(fieldValue) || (StringUtils.isNotBlank(fieldValue) && (size != -1 && fieldValue.length() != size || (isNumeric && !isNumeric(fieldValue))))) {

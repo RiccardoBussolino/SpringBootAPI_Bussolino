@@ -1,8 +1,12 @@
 package com.fabrick.bussolino.controller;
 
 
+import com.fabrick.bussolino.response.JsonResponse;
+import com.fabrick.bussolino.response.bonifico.BonificoResponseConverter;
+import com.fabrick.bussolino.response.saldo.SaldoResponseConverter;
 import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
 import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.response.transazione.TransazioneResponseConverter;
 import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;
 import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
@@ -23,24 +27,27 @@ public class ApiController {
 
     @GetMapping(value = "/letturaSaldo")
     @ResponseStatus(HttpStatus.OK)
-    public InternalSaldoResponse getSaldo(@RequestParam Long accountId) {
+    public JsonResponse<InternalSaldoResponse> getSaldo(@RequestParam Long accountId) {
         SaldoService saldoService = new SaldoService(new RestTemplate());
-        ExternalSaldoResponse response = saldoService.getSaldo(accountId);
-        return Utility.prepareResponse(response);
+       JsonResponse<ExternalSaldoResponse> response = saldoService.getSaldo(accountId);
+       SaldoResponseConverter saldoResponseConverter= new SaldoResponseConverter(response);
+        return saldoResponseConverter.convertResponse();
     }
 
     @GetMapping(value = "/bonifico")
     @ResponseStatus(HttpStatus.OK)
-    public InternalBonificoResponse moneyTransfer(InternalBonificoRequest internalBonificoRequest) {
+    public JsonResponse<InternalBonificoResponse> moneyTransfer(InternalBonificoRequest internalBonificoRequest) {
         BonificoService bonificoService = new BonificoService(new RestTemplate());
-        ExternalBonificoResponse response = bonificoService.moneyTransfer(internalBonificoRequest);
-        return Utility.prepareResponse(response,internalBonificoRequest.getAccountId());
+       JsonResponse<ExternalBonificoResponse> response = bonificoService.moneyTransfer(internalBonificoRequest);
+        BonificoResponseConverter bonificoResponseConverter= new BonificoResponseConverter(response,internalBonificoRequest.getAccountId());
+        return bonificoResponseConverter.convertResponse();
     }
     @GetMapping(value = "/letturaTransazioni")
     @ResponseStatus(HttpStatus.OK)
-    public InternalTransazioneResponse transactionList(InternalTransazioneRequest internalTransazioneRequest) {
+    public JsonResponse<InternalTransazioneResponse> transactionList(InternalTransazioneRequest internalTransazioneRequest) {
         TransazioneService transazioneService = new TransazioneService(new RestTemplate());
-        ExternalTransazioneResponse response = transazioneService.transactionList(internalTransazioneRequest);
-        return Utility.prepareResponse(response,internalTransazioneRequest.getAccountId());
+        JsonResponse<ExternalTransazioneResponse> response = transazioneService.transactionList(internalTransazioneRequest);
+        TransazioneResponseConverter transazioneResponseConverter=new TransazioneResponseConverter(response);
+        return transazioneResponseConverter.convertResponse();
     }
 }

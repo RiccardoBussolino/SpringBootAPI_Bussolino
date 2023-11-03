@@ -30,7 +30,7 @@ public class SaldoService {
         this.restTemplate = restTemplate;
     }
 
-    public ExternalSaldoResponse getSaldo(Long accountId) throws RestClientException, IllegalArgumentException {
+    public JsonResponse<ExternalSaldoResponse> getSaldo(Long accountId) throws RestClientException, IllegalArgumentException {
 
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", accountId);
         Utility.preCheckField("accountId", String.valueOf(accountId), 8,true);
@@ -42,7 +42,7 @@ public class SaldoService {
         ResponseEntity<JsonResponse<ExternalSaldoResponse>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {
         });
         logJsonResponse(Objects.requireNonNull(response.getBody()));
-        return response.getBody().getPayload();
+        return response.getBody();
     }
 
 }
