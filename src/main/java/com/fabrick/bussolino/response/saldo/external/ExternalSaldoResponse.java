@@ -1,20 +1,19 @@
 package com.fabrick.bussolino.response.saldo.external;
 
-import com.fabrick.bussolino.model.saldo.PayloadModel;
-import lombok.*;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.Date;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@NoArgsConstructor
+@Builder
+@Data
 public class ExternalSaldoResponse {
-    private HttpStatus status;
-    private List<String> error;
-    private PayloadModel payload;
+    public Date date;
+    public String balance;
+    public String availableBalance;
+    public String currency;
 }

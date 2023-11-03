@@ -1,8 +1,8 @@
 package com.fabrick.bussolino.service;
 
-import com.fabrick.bussolino.model.transazione.PayloadModel;
-import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
 import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
+import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
+import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.utility.LoggerUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,23 +39,23 @@ public class TransazioneService {
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", internalTransazioneRequest.getAccountId());
         preCheckTransazione(internalTransazioneRequest);
         HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader());
-        /*String url = UriComponentsBuilder.fromHttpUrl(API_TRANSAZIONI_SERVICE)
+        String url = UriComponentsBuilder.fromHttpUrl(API_TRANSAZIONI_SERVICE)
                 .buildAndExpand(internalTransazioneRequest.getAccountId(), internalTransazioneRequest.getFromAccountingDate(), internalTransazioneRequest.getToAccountingDate())
-                .toUriString();*/
-        String url= API_TRANSAZIONI_SERVICE.replace("{accountId}",internalTransazioneRequest.getAccountId().toString()).replace("{fromAccountingDate}",internalTransazioneRequest.getFromAccountingDate()).replace("{toAccountingDate}",internalTransazioneRequest.getToAccountingDate());
-        logChiamataServizioEsterno(url, internalTransazioneRequest.getAccountId().toString(), entity.getHeaders().toString(), entity.getBody());
-        ResponseEntity<ExternalTransazioneResponse> response = null;
+                .toUriString();
+        logChiamataServizioEsterno(url, internalTransazioneRequest.getAccountId().toString(), entity);
+        ResponseEntity<JsonResponse<ExternalTransazioneResponse>> response = null;
         try {
-response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<ExternalTransazioneResponse>() {});
+            response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {});
         } catch (HttpStatusCodeException ex) {
             LOGGER.error("Errore nella chiamata al servizio esterno.");
             List<String> listEx = new ArrayList<>();
             listEx.add(ex.getResponseBodyAsString());
-            response = new ResponseEntity<>(new ExternalTransazioneResponse(HttpStatus.BAD_REQUEST, listEx, new PayloadModel()), HttpStatus.BAD_REQUEST);
+            response = new ResponseEntity<>(new JsonResponse<>(HttpStatus.BAD_REQUEST, listEx, new ExternalTransazioneResponse()), HttpStatus.BAD_REQUEST);
         } finally {
-            LoggerUtility.logResponseCode(response.getStatusCode().toString(), Objects.requireNonNull(response.getBody()).getError().toString(), response.getBody().getPayload().toString());
+            assert response != null;
+            LoggerUtility.logJsonResponse(Objects.requireNonNull(response.getBody()));
         }
-        return response.getBody();
+        return response.getBody().getPayload();
     }
 
     private void preCheckTransazione(InternalTransazioneRequest internalTransazioneRequest) throws IllegalArgumentException {

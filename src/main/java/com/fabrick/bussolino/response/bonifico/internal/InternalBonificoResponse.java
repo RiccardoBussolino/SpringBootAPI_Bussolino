@@ -1,6 +1,7 @@
 package com.fabrick.bussolino.response.bonifico.internal;
 
 import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
+import io.micrometer.common.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +14,10 @@ import lombok.NoArgsConstructor;
 public class InternalBonificoResponse {
     String code;
     String description;
-    public InternalBonificoResponse(ExternalBonificoResponse resp,Long accountId) {
-       if("200".equalsIgnoreCase(resp.getStatus().toString())){
+    public InternalBonificoResponse(ExternalBonificoResponse resp, Long accountId) {
+       if(StringUtils.isNotBlank(resp.getMoneyTransferId())){
            this.code ="API999";// codice per OK?
-           this.description=resp.getPayload().toString();
+           this.description=resp.toString();
         }
        else {
            this.code="API000";

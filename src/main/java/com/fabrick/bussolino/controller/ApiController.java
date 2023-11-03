@@ -1,13 +1,13 @@
 package com.fabrick.bussolino.controller;
 
 
+import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
+import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;
 import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
-import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
-import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
 import com.fabrick.bussolino.response.bonifico.internal.InternalBonificoResponse;
 import com.fabrick.bussolino.response.saldo.internal.InternalSaldoResponse;
-import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.response.transazione.internal.InternalTransazioneResponse;
 import com.fabrick.bussolino.service.BonificoService;
 import com.fabrick.bussolino.service.SaldoService;
@@ -20,12 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/api")
 public class ApiController {
-/*    private final TransactionalRepository repository;
 
-    public AccountController(TransactionalRepository repository) {
-        this.repository = repository;
-    }
-*/
     @GetMapping(value = "/letturaSaldo")
     @ResponseStatus(HttpStatus.OK)
     public InternalSaldoResponse getSaldo(@RequestParam Long accountId) {

@@ -1,20 +1,16 @@
 package com.fabrick.bussolino.utility;
 
 
-import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
 import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
+import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.response.bonifico.internal.InternalBonificoResponse;
 import com.fabrick.bussolino.response.saldo.internal.InternalSaldoResponse;
-import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.response.transazione.internal.InternalTransazioneResponse;
 import io.micrometer.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 import static org.springframework.http.MediaType.*;
@@ -31,7 +27,7 @@ public class Utility {
         return new InternalBonificoResponse(resp, accountId);
     }
     public static InternalTransazioneResponse prepareResponse(ExternalTransazioneResponse resp, Long accountId) {
-        return new InternalTransazioneResponse(resp.getPayload().getList());
+        return new InternalTransazioneResponse(resp.getList());
     }
 
     public static void preCheckField(String fieldName, String fieldValue, int size, boolean isNumeric) {

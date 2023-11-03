@@ -1,6 +1,7 @@
 package com.fabrick.bussolino.service;
 
 import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
+import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.utility.Utility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
 
 import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
-import static com.fabrick.bussolino.utility.LoggerUtility.logResponseCode;
+import static com.fabrick.bussolino.utility.LoggerUtility.logJsonResponse;
 import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 
 @Service
@@ -33,10 +35,14 @@ public class SaldoService {
         LOGGER.info("Ricevuta richiesta di recupero saldo per l'account {}", accountId);
         Utility.preCheckField("accountId", String.valueOf(accountId), 8,true);
         HttpEntity<String> entity = new HttpEntity<>("", prepareHttpHeader());
-        logChiamataServizioEsterno(API_GET_SALDO_SERVICE, String.valueOf(accountId),entity.getHeaders().toString(), entity.getBody());
-        ResponseEntity<ExternalSaldoResponse> response = restTemplate.exchange(API_GET_SALDO_SERVICE.replace("{accountId}", accountId.toString()), HttpMethod.GET, entity, new ParameterizedTypeReference<ExternalSaldoResponse>() {});
-        logResponseCode(response.getStatusCode().toString(), Objects.requireNonNull(response.getBody()).getError().toString(),Objects.requireNonNull(response.getBody()).getPayload().toString());
-        return response.getBody();
+        String url=UriComponentsBuilder.fromHttpUrl(API_GET_SALDO_SERVICE)
+                .buildAndExpand(accountId)
+                .toUriString();
+        logChiamataServizioEsterno(url, String.valueOf(accountId),entity);
+        ResponseEntity<JsonResponse<ExternalSaldoResponse>> response = restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<>() {
+        });
+        logJsonResponse(Objects.requireNonNull(response.getBody()));
+        return response.getBody().getPayload();
     }
 
 }

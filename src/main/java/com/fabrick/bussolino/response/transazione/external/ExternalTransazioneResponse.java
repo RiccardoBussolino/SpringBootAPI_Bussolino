@@ -1,17 +1,17 @@
 package com.fabrick.bussolino.response.transazione.external;
 
-import com.fabrick.bussolino.model.transazione.PayloadModel;
-import lombok.*;
-import org.springframework.http.HttpStatus;
+import com.fabrick.bussolino.model.transazione.TransactionModel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Builder
+@Data
 public class ExternalTransazioneResponse {
-    private HttpStatus status;
-    private List<String> error;
-    private PayloadModel payload;
+List<TransactionModel> list;
 }

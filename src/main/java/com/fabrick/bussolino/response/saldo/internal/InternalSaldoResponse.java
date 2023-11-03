@@ -14,6 +14,6 @@ public class InternalSaldoResponse {
     public String saldo;
 
     public InternalSaldoResponse(ExternalSaldoResponse externalSaldoResponse) {
-        this.saldo = externalSaldoResponse.getPayload().getBalance();
+        this.saldo = externalSaldoResponse.getBalance();
     }
 }
