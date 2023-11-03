@@ -32,7 +32,6 @@ import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApiController.class)
-@AutoConfigureMockMvc
 public class ApiControllerTest {
     @Autowired
     private ApiController controller;
