@@ -1,6 +1,7 @@
 package com.fabrick.bussolino.controller;
 
 
+import com.fabrick.bussolino.dto.TransazioneDTO;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;
 import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
 import com.fabrick.bussolino.response.JsonResponse;
@@ -13,13 +14,17 @@ import com.fabrick.bussolino.response.saldo.internal.InternalSaldoResponse;
 import com.fabrick.bussolino.response.transazione.TransazioneResponseConverter;
 import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.response.transazione.internal.InternalTransazioneResponse;
-import com.fabrick.bussolino.service.BonificoService;
-import com.fabrick.bussolino.service.SaldoService;
-import com.fabrick.bussolino.service.TransazioneService;
+import com.fabrick.bussolino.service.db.TransazionePersistenceService;
+import com.fabrick.bussolino.service.ws.BonificoService;
+import com.fabrick.bussolino.service.ws.SaldoService;
+import com.fabrick.bussolino.service.ws.TransazioneService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.fabrick.bussolino.service.db.TransazionePersistenceService.convertTransazioneToDTO;
 import static com.fabrick.bussolino.utility.Constant.*;
 
 @RestController
@@ -29,6 +34,8 @@ public class ApiController {
     private final SaldoService saldoService;
     private final BonificoService bonificoService;
     private final TransazioneService transazioneService;
+    private final TransazionePersistenceService transazionePersistenceService;
+
 
     /*
      Descrizione: Endpoint per la lettura del saldo relativo ad un accountId fornito in input.
@@ -79,6 +86,8 @@ public class ApiController {
     public JsonResponse<InternalTransazioneResponse> transactionList(InternalTransazioneRequest internalTransazioneRequest) {
         JsonResponse<ExternalTransazioneResponse> response = transazioneService.transactionList(internalTransazioneRequest);
         TransazioneResponseConverter transazioneResponseConverter = new TransazioneResponseConverter(response);
-        return transazioneResponseConverter.convertResponse();
+       JsonResponse<InternalTransazioneResponse> internalTransazioneResponseJsonResponse= transazioneResponseConverter.convertResponse();
+       transazionePersistenceService.saveAllTransaction(convertTransazioneToDTO(internalTransazioneResponseJsonResponse));
+   return internalTransazioneResponseJsonResponse;
     }
 }

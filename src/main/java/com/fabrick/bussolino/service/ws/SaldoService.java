@@ -1,4 +1,4 @@
-package com.fabrick.bussolino.service;
+package com.fabrick.bussolino.service.ws;
 
 import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;

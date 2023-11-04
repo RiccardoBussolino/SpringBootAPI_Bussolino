@@ -3,6 +3,7 @@ package com.fabrick.bussolino.service;
 import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
 import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
+import com.fabrick.bussolino.service.ws.TransazioneService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -19,7 +20,7 @@ import static com.fabrick.bussolino.utility.MockedObject.generateJsonResponseTra
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-public class TransazioneServiceTest {
+public class TransazionePersistenceServiceTest {
 
     @Mock
     private RestTemplate restTemplate;

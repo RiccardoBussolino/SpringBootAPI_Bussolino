@@ -2,6 +2,7 @@ package com.fabrick.bussolino.service;
 
 import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
+import com.fabrick.bussolino.service.ws.SaldoService;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

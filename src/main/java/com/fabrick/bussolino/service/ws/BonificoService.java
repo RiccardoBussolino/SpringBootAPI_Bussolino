@@ -1,4 +1,4 @@
-package com.fabrick.bussolino.service;
+package com.fabrick.bussolino.service.ws;
 
 import com.fabrick.bussolino.request.bonifico.external.ExternalBonificoRequest;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;

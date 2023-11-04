@@ -3,6 +3,7 @@ package com.fabrick.bussolino.service;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;
 import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
+import com.fabrick.bussolino.service.ws.BonificoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
