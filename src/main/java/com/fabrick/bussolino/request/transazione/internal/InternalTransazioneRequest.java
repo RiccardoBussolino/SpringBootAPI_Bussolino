@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class InternalTransazioneRequest {
-   public Long accountId;
-   public String fromAccountingDate;
-   public String toAccountingDate;
+    public Long accountId;
+    public String fromAccountingDate;
+    public String toAccountingDate;
 }

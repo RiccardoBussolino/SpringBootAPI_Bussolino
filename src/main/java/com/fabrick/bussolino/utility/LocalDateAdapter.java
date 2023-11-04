@@ -1,6 +1,5 @@
 package com.fabrick.bussolino.utility;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;

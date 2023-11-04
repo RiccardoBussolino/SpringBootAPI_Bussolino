@@ -16,10 +16,11 @@ public class ExternalSaldoResponse {
     public String balance;
     public String availableBalance;
     public String currency;
-    public ExternalSaldoResponse(ExternalSaldoResponse ext){
-        this.date=ext.getDate();
-        this.balance=ext.getBalance();
-        this.availableBalance=ext.getAvailableBalance();
-        this.currency=ext.getCurrency();
+
+    public ExternalSaldoResponse(ExternalSaldoResponse ext) {
+        this.date = ext.getDate();
+        this.balance = ext.getBalance();
+        this.availableBalance = ext.getAvailableBalance();
+        this.currency = ext.getCurrency();
     }
 }

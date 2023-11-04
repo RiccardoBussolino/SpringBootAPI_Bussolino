@@ -18,16 +18,16 @@ import java.util.Arrays;
 @NoArgsConstructor
 public class SaldoResponseConverter implements ResponseConverter<InternalSaldoResponse, ExternalSaldoResponse> {
     JsonResponse<ExternalSaldoResponse> resp;
+
     public JsonResponse<InternalSaldoResponse> convertResponse() {
         JsonResponse<InternalSaldoResponse> response;
-        if(this.resp!=null){
-            response=new  JsonResponse<>(resp.getStatus(), resp.getError(), new InternalSaldoResponse());
-            if(resp.getPayload()!=null){
+        if (this.resp != null) {
+            response = new JsonResponse<>(resp.getStatus(), resp.getError(), new InternalSaldoResponse());
+            if (resp.getPayload() != null) {
                 response.getPayload().setSaldo(resp.getPayload().getBalance());
             }
-        }
-        else {
-            response= new JsonResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, Arrays.asList("Errore sconosciuto - non è stato possibile recuperare l'informazione richiesta"),new InternalSaldoResponse());
+        } else {
+            response = new JsonResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, Arrays.asList("Errore sconosciuto - non è stato possibile recuperare l'informazione richiesta"), new InternalSaldoResponse());
         }
         return response;
     }

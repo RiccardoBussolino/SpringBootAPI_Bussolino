@@ -13,7 +13,7 @@ public class LoggerUtility {
     public static void logChiamataServizioEsterno(String url, String accountId, HttpEntity entity) {
         LOGGER.info("Avvio chiamata per recupero saldo, al servizio esterno {} per l'account {}", url, accountId);
         LOGGER.info ("HEADER:{}", entity.getHeaders());
-        LOGGER.info("BODY: {}", Objects.requireNonNull(entity.getBody()).toString());
+        LOGGER.info("BODY: {}", Objects.requireNonNull(entity.getBody()));
 
     }
     public static void logJsonResponse(JsonResponse jsonResponse){
@@ -24,20 +24,8 @@ public class LoggerUtility {
         else  {
             LOGGER.error("Il servizio esterno ha segnalto un errore - STATUS: {}", jsonResponse.getStatus().value());
             LOGGER.error("Response error: {}",jsonResponse.getError().toString());
-            LOGGER.error("Response payload: {}", jsonResponse.getPayload().toString());
+            LOGGER.error("Response payload: {}", jsonResponse.getPayload()!=null?jsonResponse.getPayload().toString():"{}");
         }
     }
-  /*  public static void logResponseCode(String statusCode,String errors, String payloads) {
-
-        if (("200 OK").equalsIgnoreCase(statusCode)) {
-            LOGGER.info("Il servizio esterno ha risposto correttamente - STATUS: {}", statusCode);
-            LOGGER.info("Response payloads: {}",payloads);
-        } else {
-            LOGGER.error("Il servizio esterno ha segnalto un errore - STATUS: {}", statusCode);
-            LOGGER.error("Response error: {}",errors);
-            LOGGER.error("Response payload: {}", payloads);
-        }
-
-    }*/
 
 }

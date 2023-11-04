@@ -16,6 +16,7 @@ import lombok.Setter;
 public class BonificoResponseConverter implements ResponseConverter<InternalBonificoResponse, ExternalBonificoResponse> {
     JsonResponse<ExternalBonificoResponse> response;
     Long accountId;
+
     public JsonResponse<InternalBonificoResponse> convertResponse() {
         return new JsonResponse<>(response.getStatus(), response.getError(), new InternalBonificoResponse(response.getPayload(), accountId));
     }

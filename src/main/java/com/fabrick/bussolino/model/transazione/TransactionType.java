@@ -1,6 +1,5 @@
 package com.fabrick.bussolino.model.transazione;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

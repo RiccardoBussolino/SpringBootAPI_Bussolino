@@ -4,7 +4,10 @@ import com.fabrick.bussolino.model.bonifico.AmountModel;
 import com.fabrick.bussolino.model.bonifico.CreditorModel;
 import com.fabrick.bussolino.model.bonifico.DebtorModel;
 import com.fabrick.bussolino.model.bonifico.FeesModel;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;

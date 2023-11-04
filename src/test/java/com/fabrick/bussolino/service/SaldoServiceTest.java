@@ -10,14 +10,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import static com.fabrick.bussolino.utility.MockedObject.generateJsonResponseKOSaldo;
+import static com.fabrick.bussolino.utility.MockedObject.generateJsonResponseSaldo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -61,11 +58,4 @@ public class SaldoServiceTest {
         assertEquals(jsonResponse, result);
     }
 
-    private JsonResponse<ExternalSaldoResponse> generateJsonResponseSaldo() {
-        return new JsonResponse<>(HttpStatus.OK, new ArrayList<>(), new ExternalSaldoResponse(new Date(), "1", "1", "EUR"));
-    }
-
-    private JsonResponse<ExternalSaldoResponse> generateJsonResponseKOSaldo() {
-        return new JsonResponse<>(HttpStatus.BAD_REQUEST, List.of("Errore accountId mal formattato"), new ExternalSaldoResponse());
-    }
 }

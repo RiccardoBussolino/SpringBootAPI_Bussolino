@@ -13,5 +13,5 @@ import java.util.List;
 @Builder
 @Data
 public class ExternalTransazioneResponse {
-List<TransactionModel> list;
+    List<TransactionModel> list;
 }

@@ -6,6 +6,7 @@ import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
 import com.fabrick.bussolino.utility.LocalDateAdapter;
 import com.fabrick.bussolino.utility.LoggerUtility;
+import com.fabrick.bussolino.utility.MockedObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.slf4j.Logger;
@@ -26,7 +27,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
-import static com.fabrick.bussolino.utility.Utility.*;
+import static com.fabrick.bussolino.utility.PreCheckUtility.preCheckBonifico;
+import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 
 @Service
 public class BonificoService {
@@ -50,7 +52,7 @@ public class BonificoService {
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).serializeNulls()
                 .create();
-        ExternalBonificoRequest externalBonificoRequest = mockingTryCallExtended(internalBonificoRequest);
+        ExternalBonificoRequest externalBonificoRequest = MockedObject.mockingTryCallExtended(internalBonificoRequest);
         HttpEntity<String> entity = new HttpEntity<>(gson.toJson(externalBonificoRequest), prepareHttpHeader());
         String url = UriComponentsBuilder.fromHttpUrl(API_BONIFICO_SERVICE)
                 .buildAndExpand(internalBonificoRequest.getAccountId().toString())
@@ -59,7 +61,7 @@ public class BonificoService {
         ResponseEntity<JsonResponse<ExternalBonificoResponse>> response = null;
         try {
 
-            restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
+            response = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<>() {
             });
         } catch (HttpStatusCodeException ex) {
             LOGGER.error("Errore nella chiamata al servizio esterno.");
@@ -74,13 +76,4 @@ public class BonificoService {
     }
 
 
-    private void preCheckBonifico(InternalBonificoRequest internalBonificoRequest) throws IllegalArgumentException {
-        preCheckField("accountId", internalBonificoRequest.getAccountId().toString(), 8, true);
-        preCheckField("receiverName", internalBonificoRequest.getReceiverName(), -1, false);
-        preCheckField("description", internalBonificoRequest.getDescription(), -1, false);
-        preCheckField("currency", internalBonificoRequest.getCurrency(), -1, false);
-        preCheckField("amount", internalBonificoRequest.getAmount(), -1, false);
-        preCheckField("amount", internalBonificoRequest.getExecutionDate(), -1, false);
-
-    }
 }

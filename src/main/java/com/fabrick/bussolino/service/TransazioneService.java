@@ -1,8 +1,8 @@
 package com.fabrick.bussolino.service;
 
-import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
 import com.fabrick.bussolino.response.JsonResponse;
+import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.utility.LoggerUtility;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
-import static com.fabrick.bussolino.utility.Utility.preCheckField;
+import static com.fabrick.bussolino.utility.PreCheckUtility.preCheckTransazione;
 import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 
 @Service
@@ -61,12 +61,6 @@ public class TransazioneService {
             LoggerUtility.logJsonResponse(Objects.requireNonNull(response.getBody()));
         }
         return response.getBody();
-    }
-
-    private void preCheckTransazione(InternalTransazioneRequest internalTransazioneRequest) throws IllegalArgumentException {
-        preCheckField("accountId", internalTransazioneRequest.getAccountId().toString(), 8, true);
-        preCheckField("fromAccountingDate", internalTransazioneRequest.getFromAccountingDate(), -1, false);
-        preCheckField("toAccountingDate", internalTransazioneRequest.getToAccountingDate(), -1, false);
     }
 }
 

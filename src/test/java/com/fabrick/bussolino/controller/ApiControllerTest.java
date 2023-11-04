@@ -1,16 +1,11 @@
 package com.fabrick.bussolino.controller;
 
 
-import com.fabrick.bussolino.model.transazione.TransactionModel;
-import com.fabrick.bussolino.model.transazione.TransactionType;
 import com.fabrick.bussolino.request.bonifico.internal.InternalBonificoRequest;
 import com.fabrick.bussolino.request.transazione.internal.InternalTransazioneRequest;
 import com.fabrick.bussolino.response.JsonResponse;
-import com.fabrick.bussolino.response.bonifico.external.ExternalBonificoResponse;
 import com.fabrick.bussolino.response.bonifico.internal.InternalBonificoResponse;
-import com.fabrick.bussolino.response.saldo.external.ExternalSaldoResponse;
 import com.fabrick.bussolino.response.saldo.internal.InternalSaldoResponse;
-import com.fabrick.bussolino.response.transazione.external.ExternalTransazioneResponse;
 import com.fabrick.bussolino.response.transazione.internal.InternalTransazioneResponse;
 import com.fabrick.bussolino.service.BonificoService;
 import com.fabrick.bussolino.service.SaldoService;
@@ -24,11 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
+import static com.fabrick.bussolino.utility.MockedObject.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -103,35 +94,5 @@ public class ApiControllerTest {
 
     }
 
-    private JsonResponse<ExternalSaldoResponse> generateJsonResponseSaldo() {
-        return new JsonResponse<>(HttpStatus.OK, new ArrayList<>(), new ExternalSaldoResponse(new Date(), "1", "1", "EUR"));
-    }
-
-    private JsonResponse<ExternalSaldoResponse> generateJsonResponseKOSaldo() {
-        return new JsonResponse<>(HttpStatus.BAD_REQUEST, List.of("Errore accountId mal formattato"), new ExternalSaldoResponse());
-    }
-
-    private JsonResponse<ExternalBonificoResponse> generateJsonResponseBonifico() {
-        return new JsonResponse<>(HttpStatus.OK, new ArrayList<>(), new ExternalBonificoResponse());
-    }
-
-    private JsonResponse<ExternalBonificoResponse> generateJsonResponseKOBonifico() {
-        return new JsonResponse<>(HttpStatus.BAD_REQUEST, List.of("Errore accountId mal formattato"), new ExternalBonificoResponse());
-    }
-
-    private JsonResponse<ExternalTransazioneResponse> generateJsonResponseTransazione() {
-        return new JsonResponse<>(HttpStatus.OK, new ArrayList<>(), new ExternalTransazioneResponse(Arrays.asList(new TransactionModel("12345",
-                "OPE123",
-                new Date(),
-                new Date(),
-                new TransactionType(TransactionType.Enumeration.GBS_TRANSACTION_TYPE, TransactionType.Value.GBS_ACCOUNT_TRANSACTION_TYPE_0009),
-                100,
-                "EUR",
-                "Causale transazione"))));
-    }
-
-    private JsonResponse<ExternalTransazioneResponse> generateJsonResponseKOTransazione() {
-        return new JsonResponse<>(HttpStatus.BAD_REQUEST, List.of("Errore non è stato possibile recuperare le informazioni richieste"), null);
-    }
 
 }
