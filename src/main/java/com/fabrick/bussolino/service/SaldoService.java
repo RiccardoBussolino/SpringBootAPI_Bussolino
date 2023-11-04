@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Objects;
 
+import static com.fabrick.bussolino.utility.Constant.API_GET_SALDO_SERVICE;
 import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
 import static com.fabrick.bussolino.utility.LoggerUtility.logJsonResponse;
 import static com.fabrick.bussolino.utility.PreCheckUtility.preCheckField;
@@ -23,7 +24,6 @@ import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 @Service
 public class SaldoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(SaldoService.class);
-    private final String API_GET_SALDO_SERVICE = "https://sandbox.platfr.io//api/gbs/banking/v4.0/accounts/{accountId}/balance";
     private final RestTemplate restTemplate;
 
     public SaldoService() {

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.fabrick.bussolino.utility.Constant.API_BONIFICO_SERVICE;
 import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
 import static com.fabrick.bussolino.utility.PreCheckUtility.preCheckBonifico;
 import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
@@ -33,7 +34,6 @@ import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 @Service
 public class BonificoService {
     private static final Logger LOGGER = LoggerFactory.getLogger(BonificoService.class);
-    private final String API_BONIFICO_SERVICE = "https://sandbox.platfr.io//api/gbs/banking/v4.0/accounts/{accountId}/payments/money-transfers";
     private final RestTemplate restTemplate;
 
     public BonificoService() {

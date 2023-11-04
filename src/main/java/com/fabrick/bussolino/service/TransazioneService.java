@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static com.fabrick.bussolino.utility.Constant.API_TRANSAZIONI_SERVICE;
 import static com.fabrick.bussolino.utility.LoggerUtility.logChiamataServizioEsterno;
 import static com.fabrick.bussolino.utility.PreCheckUtility.preCheckTransazione;
 import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
@@ -27,7 +28,6 @@ import static com.fabrick.bussolino.utility.Utility.prepareHttpHeader;
 @Service
 public class TransazioneService {
     private static final Logger LOGGER = LoggerFactory.getLogger(TransazioneService.class);
-    private final String API_TRANSAZIONI_SERVICE = "https://sandbox.platfr.io/api/gbs/banking/v4.0/accounts/{accountId}/transactions?fromAccountingDate={fromAccountingDate}&toAccountingDate={toAccountingDate}";
     private final RestTemplate restTemplate;
 
     public TransazioneService() {

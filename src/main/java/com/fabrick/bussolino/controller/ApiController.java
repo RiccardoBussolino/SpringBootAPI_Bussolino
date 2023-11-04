@@ -20,34 +20,65 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import static com.fabrick.bussolino.utility.Constant.*;
+
 @RestController
-@RequestMapping("/api")
+@RequestMapping(BASE_URL_REQUEST_MAPPING)
 @AllArgsConstructor
 public class ApiController {
     private final SaldoService saldoService;
     private final BonificoService bonificoService;
     private final TransazioneService transazioneService;
 
-    @GetMapping(value = "/letturaSaldo")
+    /*
+     Descrizione: Endpoint per la lettura del saldo relativo ad un accountId fornito in input.
+     * input:
+         AccountId - identificativo account del quale si vuole conoscere il saldo
+     * output:
+        Saldo - Importo del saldo presente sull'account.
+     * */
+    @GetMapping(value = API_LETTURA_SALDO)
     @ResponseStatus(HttpStatus.OK)
     public JsonResponse<InternalSaldoResponse> getSaldo(@RequestParam Long accountId) {
-       JsonResponse<ExternalSaldoResponse> response = saldoService.getSaldo(accountId);
-       SaldoResponseConverter saldoResponseConverter= new SaldoResponseConverter(response);
+        JsonResponse<ExternalSaldoResponse> response = saldoService.getSaldo(accountId);
+        SaldoResponseConverter saldoResponseConverter = new SaldoResponseConverter(response);
         return saldoResponseConverter.convertResponse();
     }
 
-    @GetMapping(value = "/bonifico")
+    /*
+     Descrizione: Endpoint per pianificare un bonifico in uscita indicando destinatario ed importo
+     * input:
+         accountId -accountId destinatario
+         receiverName - Nome destinatario
+         description - Descrizione del pagamento
+         currency - Valuta
+         amount - Importo
+         executionDate - Data di esecuzione
+     * output:
+         Esito del bonifico + informazioni
+     */
+    @GetMapping(value = API_BONIFICO)
     @ResponseStatus(HttpStatus.OK)
     public JsonResponse<InternalBonificoResponse> moneyTransfer(InternalBonificoRequest internalBonificoRequest) {
-       JsonResponse<ExternalBonificoResponse> response = bonificoService.moneyTransfer(internalBonificoRequest);
-        BonificoResponseConverter bonificoResponseConverter= new BonificoResponseConverter(response,internalBonificoRequest.getAccountId());
+        JsonResponse<ExternalBonificoResponse> response = bonificoService.moneyTransfer(internalBonificoRequest);
+        BonificoResponseConverter bonificoResponseConverter = new BonificoResponseConverter(response, internalBonificoRequest.getAccountId());
         return bonificoResponseConverter.convertResponse();
     }
-    @GetMapping(value = "/letturaTransazioni")
+
+    /*
+ Descrizion: Endpoint per l'estrazione dei movimenti effettuati da un determinato utente durante un periodo
+ * input:
+       accountId -accountId destinatario
+     fromAccountingDate - data inizio periodo di ricerca
+     toAccountingDate - data fine periodo di ricerca
+ * output:
+ *  Lista di movimenti effettuate dall'accountId durante per il periodo delimitato dalle date ricevute in input.
+ * */
+    @GetMapping(value = API_LISTA_TRANSAZIONI)
     @ResponseStatus(HttpStatus.OK)
     public JsonResponse<InternalTransazioneResponse> transactionList(InternalTransazioneRequest internalTransazioneRequest) {
         JsonResponse<ExternalTransazioneResponse> response = transazioneService.transactionList(internalTransazioneRequest);
-        TransazioneResponseConverter transazioneResponseConverter=new TransazioneResponseConverter(response);
+        TransazioneResponseConverter transazioneResponseConverter = new TransazioneResponseConverter(response);
         return transazioneResponseConverter.convertResponse();
     }
 }
