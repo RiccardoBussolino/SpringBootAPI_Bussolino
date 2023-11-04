@@ -18,4 +18,9 @@ public class TransactionType {
         GBS_ACCOUNT_TRANSACTION_TYPE_0009,
         GBS_ACCOUNT_TRANSACTION_TYPE_0016
     }
+
+    @Override
+    public String toString() {
+        return "ENUMERATION:".concat(this.enumeration.toString()).concat(" - VALUE: ").concat(this.value.toString());
+    }
 }
