@@ -7,14 +7,18 @@ import com.fabrick.bussolino.response.JsonResponse;
 import com.fabrick.bussolino.response.bonifico.internal.InternalBonificoResponse;
 import com.fabrick.bussolino.response.saldo.internal.InternalSaldoResponse;
 import com.fabrick.bussolino.response.transazione.internal.InternalTransazioneResponse;
+import com.fabrick.bussolino.service.db.TransazionePersistenceService;
 import com.fabrick.bussolino.service.ws.BonificoService;
 import com.fabrick.bussolino.service.ws.SaldoService;
 import com.fabrick.bussolino.service.ws.TransazioneService;
+import jakarta.inject.Inject;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -26,16 +30,25 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ApiController.class)
 public class ApiControllerTest {
-    @Autowired
+
+    @InjectMocks
     private ApiController controller;
-    @MockBean
+    @Mock
     private SaldoService saldoService;
 
-    @MockBean
+    @Mock
     private BonificoService bonificoService;
 
-    @MockBean
+    @Mock
     private TransazioneService transazioneService;
+    @Mock
+    private TransazionePersistenceService transazionePersistenceService;
+
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+      controller=new ApiController(saldoService,bonificoService,transazioneService,transazionePersistenceService);
+    }
 
     @Test
     public void testSaldo() {
@@ -90,7 +103,7 @@ public class ApiControllerTest {
         when(transazioneService.transactionList(any())).thenReturn(generateJsonResponseKOTransazione());
         JsonResponse<InternalTransazioneResponse> response = controller.transactionList(new InternalTransazioneRequest(1L, "2023-10-01", "2023-10-01"));
         Assert.assertEquals(response.getStatus(), HttpStatus.BAD_REQUEST);
-        Assert.assertNull(response.getPayload().getList());
+        Assert.assertTrue(response.getPayload().getList().isEmpty());
 
     }
 

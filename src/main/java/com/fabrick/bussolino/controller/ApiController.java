@@ -87,7 +87,9 @@ public class ApiController {
         JsonResponse<ExternalTransazioneResponse> response = transazioneService.transactionList(internalTransazioneRequest);
         TransazioneResponseConverter transazioneResponseConverter = new TransazioneResponseConverter(response);
        JsonResponse<InternalTransazioneResponse> internalTransazioneResponseJsonResponse= transazioneResponseConverter.convertResponse();
-       transazionePersistenceService.saveAllTransaction(convertTransazioneToDTO(internalTransazioneResponseJsonResponse));
+       if(!internalTransazioneResponseJsonResponse.getStatus().is2xxSuccessful()) {
+           transazionePersistenceService.saveAllTransaction(convertTransazioneToDTO(internalTransazioneResponseJsonResponse));
+       }
    return internalTransazioneResponseJsonResponse;
     }
 }

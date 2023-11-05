@@ -97,6 +97,6 @@ public class MockedObject {
     }
 
     public static JsonResponse<ExternalTransazioneResponse> generateJsonResponseKOTransazione() {
-        return new JsonResponse<>(HttpStatus.BAD_REQUEST, List.of("Errore non è stato possibile recuperare le informazioni richieste"), null);
+        return new JsonResponse<>(HttpStatus.BAD_REQUEST, List.of("Errore non è stato possibile recuperare le informazioni richieste"), new ExternalTransazioneResponse(new ArrayList<>()));
     }
 }
