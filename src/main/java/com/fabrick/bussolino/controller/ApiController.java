@@ -62,7 +62,7 @@ public class ApiController {
          amount - Importo
          executionDate - Data di esecuzione
      * output:
-         Esito del bonifico + informazioni
+         Esito del bonifico  informazioni
      */
     @GetMapping(value = API_BONIFICO)
     @ResponseStatus(HttpStatus.OK)
@@ -87,9 +87,11 @@ public class ApiController {
         JsonResponse<ExternalTransazioneResponse> response = transazioneService.transactionList(internalTransazioneRequest);
         TransazioneResponseConverter transazioneResponseConverter = new TransazioneResponseConverter(response);
        JsonResponse<InternalTransazioneResponse> internalTransazioneResponseJsonResponse= transazioneResponseConverter.convertResponse();
-       if(!internalTransazioneResponseJsonResponse.getStatus().is2xxSuccessful()) {
+       //Salvo le trasnsazioni recuperate sulla base dati solo se il servizio esterno ha restituito uno stato SUCCESSFULL  - 2XX"
+       if(internalTransazioneResponseJsonResponse.getStatus().is2xxSuccessful()) {
            transazionePersistenceService.saveAllTransaction(convertTransazioneToDTO(internalTransazioneResponseJsonResponse));
        }
    return internalTransazioneResponseJsonResponse;
     }
 }
+

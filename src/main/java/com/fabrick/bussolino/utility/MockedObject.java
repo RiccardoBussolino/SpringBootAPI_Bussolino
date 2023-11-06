@@ -84,8 +84,8 @@ public class MockedObject {
 
     public static JsonResponse<ExternalTransazioneResponse> generateJsonResponseTransazione() {
         TransactionType type = new TransactionType();
-        type.setEnumeration(TransactionType.Enumeration.GBS_TRANSACTION_TYPE);
-        type.setValue(TransactionType.Value.GBS_ACCOUNT_TRANSACTION_TYPE_0009);
+        type.setEnumeration(TransactionType.Enumeration.GBS_TRANSACTION_TYPE.toString());
+        type.setValue(TransactionType.Value.GBS_ACCOUNT_TRANSACTION_TYPE_0009.toString());
         return new JsonResponse<>(HttpStatus.OK, new ArrayList<>(), new ExternalTransazioneResponse(Arrays.asList(new TransactionModel("12345",
                 "OPE123",
                 new Date(),

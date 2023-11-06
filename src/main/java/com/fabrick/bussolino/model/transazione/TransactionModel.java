@@ -9,7 +9,6 @@ import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Data
 public class TransactionModel {
     String transactionId;

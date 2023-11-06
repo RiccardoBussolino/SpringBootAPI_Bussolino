@@ -1,17 +1,14 @@
 package com.fabrick.bussolino.response.transazione.external;
 
 import com.fabrick.bussolino.model.transazione.TransactionModel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Data
+@Getter
+@Setter
 public class ExternalTransazioneResponse {
     List<TransactionModel> list;
 }
